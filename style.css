@@ -38,3 +38,23 @@ nav a.active:is(:hover, :focus-visible),
 .mail:is(:hover, :focus-visible) {
   color: #fff;
 }
+
+header.floatingNav {
+  position: fixed;
+  z-index: 20;
+  background: rgba(16, 17, 16, .92);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .14), 0 5px 24px rgba(0, 0, 0, .18);
+}
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  header.floatingNav {
+    background: rgba(16, 17, 16, .67);
+    -webkit-backdrop-filter: blur(18px) saturate(125%);
+    backdrop-filter: blur(18px) saturate(125%);
+  }
+}
+section[id]:not(#home) {
+  scroll-margin-top: 76px;
+}
+@media (max-width: 760px) {
+  section[id]:not(#home) { scroll-margin-top: 68px; }
+}
