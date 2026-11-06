@@ -72,9 +72,10 @@ function ProjectCard({ project, index, openGallery }) {
         <TiltedCardLayer depth={30}><span className="flipHint">翻面 ↻</span></TiltedCardLayer>
       </TiltedCard>}
     </div>
-    <button className="projectInfo galleryEntry" onClick={openGallery} aria-label={'查看' + project.title + '图集'}>
-      <small>{String(index+1).padStart(2,'0')} / {project.category}</small><h4>{project.title}</h4><i>{project.images.length} 张 · 查看图集 ↗</i>
-    </button>
+    <div className="projectInfo projectMeta">
+      <div><small>{String(index+1).padStart(2,'0')} / {project.category}</small><h4>{project.title}</h4></div>
+      <button className="galleryEntry" onClick={openGallery} aria-label={'查看' + project.title + '图集'}>{project.images.length} 张 · 查看图集 ↗</button>
+    </div>
   </div>
 }
 
@@ -82,20 +83,23 @@ function MotionLine({children}) {
   return <b className="titleMask"><b className="titleInk">{children}</b></b>
 }
 
-function GalleryPages({project,slide}) {
+function GalleryPages({project,slide,onZoom}) {
   const {images,labels}=project
   const count=images.length
   const neighbors=[...new Set([slide,(slide+1)%count,(slide+count-1)%count])]
-  return <a className="fullPage" href={images[slide]} target="_blank" rel="noreferrer" aria-label="在新标签页放大查看整张作品">
+  return <button className="fullPage" onClick={onZoom} aria-label="放大查看当前作品">
     {neighbors.map(i=><img key={images[i]+'-'+i} src={galleryPreviews[images[i]]??images[i]}
       alt={i===slide?labels[i]:''} aria-hidden={i!==slide} className={i===slide?'currentPage':'bufferedPage'}
       fetchpriority={i===slide?'high':'low'} decoding="async"/>)}
-  </a>
+  </button>
 }
 
 function App({projects,owner=false}){
  const [active,setActive]=useState('home'),[project,setProject]=useState(null),[slide,setSlide]=useState(0),[paused,setPaused]=useState(true)
  const [floating,setFloating]=useState(false)
+ const zoomDialog=useRef(null)
+ const [zoomed,setZoomed]=useState(false)
+ useEffect(()=>{if(zoomed)zoomDialog.current.showModal()},[zoomed])
  const hero=useRef(null)
  const motion=usePortfolioMotion(hero)
  const dialog=useRef(null),video=useRef(null),manualPause=useRef(false)
@@ -138,7 +142,12 @@ function App({projects,owner=false}){
        <small>{en}</small><h4>{cn}</h4><span className="flipHint">翻面 ↻</span></div></TiltedCardLayer>
    </TiltedCard></div>)}</div></section></main>
  <section id="contact"><div className="contactInner"><div className="label">04 / CONTACT</div><h3 className="sectionHeading"><MotionLine>Let’s talk<strong>.</strong></MotionLine></h3><h4>聊聊下一个设计项目</h4><a className="mail" href={'mailto:'+email}>{email} ↗</a><a href="tel:18222557741">182 2255 7741</a></div><footer>{owner&&<a href="/?manage">管理作品</a>}© 2026 YANG MINGYANG <a href="#home">回到顶部 ↑</a></footer></section>
- <dialog ref={dialog} onClose={()=>setProject(null)} onKeyDown={e=>{if(e.target.tagName==='SELECT')return;if(e.key==='ArrowRight')turn(1);if(e.key==='ArrowLeft')turn(-1)}}>{project&&<><div className="dialogHead"><h4>{project.title}</h4><button onClick={()=>dialog.current.close()} aria-label="关闭">×</button></div><GalleryPages project={project} slide={slide}/><div className="pagePicker"><label>跳转页面 <select value={slide} onChange={e=>setSlide(Number(e.target.value))}>{project.labels.map((label,i)=><option key={i} value={i}>{i+1} · {label}</option>)}</select></label><a href={project.images[slide]} target="_blank" rel="noreferrer">放大查看 ↗</a></div><div className="controls"><button onClick={()=>turn(-1)}>← 上一张</button>{slide+1} / {project.images.length}<button onClick={()=>turn(1)}>下一张 →</button></div></>}</dialog></>}
+ <dialog ref={dialog} onClose={()=>setProject(null)} onKeyDown={e=>{if(e.target.tagName==='SELECT')return;if(e.key==='ArrowRight')turn(1);if(e.key==='ArrowLeft')turn(-1)}}>{project&&<><div className="dialogHead"><h4>{project.title}</h4><button onClick={()=>dialog.current.close()} aria-label="关闭">×</button></div><GalleryPages project={project} slide={slide} onZoom={()=>setZoomed(true)}/><div className="pagePicker"><label>跳转页面 <select value={slide} onChange={e=>setSlide(Number(e.target.value))}>{project.labels.map((label,i)=><option key={i} value={i}>{i+1} · {label}</option>)}</select></label><button className="zoomButton" onClick={()=>setZoomed(true)}>放大查看 ⤢</button></div><div className="controls"><button onClick={()=>turn(-1)}>← 上一张</button>{slide+1} / {project.images.length}<button onClick={()=>turn(1)}>下一张 →</button></div></>}</dialog>
+ <dialog ref={zoomDialog} className="zoomDialog" aria-label="作品大图" onClose={()=>setZoomed(false)}>
+ {zoomed&&project&&<><div className="zoomBar"><button autoFocus onClick={()=>zoomDialog.current.close()}>← 返回图集</button>
+ <span>{slide+1} / {project.images.length}</span><button onClick={()=>{zoomDialog.current.close();dialog.current.close()}}>返回作品集</button></div>
+ <div className="zoomCanvas"><img src={project.images[slide]} alt={project.labels[slide]}/></div></>}
+ </dialog></>}
 function Published() {
   const [projects,setProjects]=useState(null),[owner,setOwner]=useState(false),[error,setError]=useState(false)
   useEffect(()=>{

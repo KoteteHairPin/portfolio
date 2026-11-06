@@ -128,3 +128,21 @@ section[id]:not(#home) {
 
 .fullPage { position: relative; }
 .fullPage .bufferedPage { position: absolute; inset: 0; visibility: hidden; pointer-events: none; }
+
+.projectMeta { display:flex; align-items:flex-end; justify-content:space-between; gap:14px; flex-wrap:wrap; padding:18px 0 0; }
+.projectMeta>div { flex:1 1 200px; min-width:0; }
+.projectMeta small { font:500 clamp(16px,1.25vw,21px)/1.5 Arial,"Microsoft YaHei",sans-serif; letter-spacing:.035em; color:#d2d9c9; }
+.projectMeta h4 { margin:6px 0 0; font-size:clamp(23px,2vw,34px); }
+.projectMeta .galleryEntry,.zoomButton,.zoomBar button { width:auto; min-height:44px; padding:10px 16px; border:1px solid var(--lime); border-radius:5px; background:var(--lime); color:#10150a; font-size:16px; font-weight:600; }
+.projectMeta .galleryEntry { margin-left:auto; white-space:nowrap; }
+.projectMeta .galleryEntry:is(:hover,:focus-visible),.zoomButton:is(:hover,:focus-visible),.zoomBar button:is(:hover,:focus-visible) { background:#fff; border-color:#fff; color:#111; }
+main p,dialog p,.bio a,.hero p,.pagePicker label,.pagePicker select,.controls { font-size:clamp(16px,1.25vw,20px); }
+nav,.action,.contactBtn,.stats,.skillFace small,.motionSwitch,.flipHint { font-size:clamp(14px,1.1vw,18px); }
+.label,.hero .eyebrow,.stage .topline,.heroFoot,footer { font-size:clamp(12px,1vw,16px); }
+.fullPage { width:100%; padding:0; border:0; cursor:zoom-in; }
+.zoomDialog { width:min(1500px,98vw); max-width:98vw; max-height:96dvh; padding:0; overflow:hidden; }
+.zoomBar { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:10px; border-bottom:1px solid var(--line); }
+.zoomBar button:last-child { background:transparent; color:var(--lime); }
+.zoomCanvas { max-height:calc(95dvh - 70px); overflow:auto; background:#101110; }
+.zoomCanvas img { display:block; width:auto; min-width:100%; height:auto; max-width:none; margin:auto; }
+@media(max-width:600px){.nav{height:auto;min-height:78px;flex-wrap:wrap;gap:4px 12px;padding:6px 0}.nav nav{order:3;width:100%;justify-content:center;gap:20px;font-size:14px}.navActions{margin-left:auto}.stage .topline{top:82px}.heroFoot,.stage .topline{letter-spacing:.3px;font-size:11px}.stage .eyebrow{font-size:13px}.zoomCanvas img{min-width:100%}section[id]:not(#home){scroll-margin-top:86px}}
