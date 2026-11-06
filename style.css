@@ -71,3 +71,23 @@ section[id]:not(#home) {
 @media (max-width: 760px) {
   .portfolioBackground { opacity: .18; }
 }
+
+.projectTilt { aspect-ratio: 1.65; }
+.projectTilt, .skillTilt { position: relative; min-width: 0; }
+.project:has(.tilted-card[data-active]), .skillTilt:has(.tilted-card[data-active]) { position: relative; z-index: 2; }
+.galleryEntry {
+  display: block; width: 100%; border: 0; background: transparent;
+  padding: 18px 90px 0 0; text-align: left; color: inherit;
+}
+.galleryEntry i { font-size: 13px; }
+.galleryEntry:is(:hover,:focus-visible) { color: var(--lime); }
+.skills { gap: 15px; border: 0; }
+.skillTilt { height: 250px; }
+.skillTilt .tilted-card__front, .tiltBack { background: #181b17; }
+.skillFace, .tiltBack { height: 100%; padding: clamp(20px,2vw,35px); }
+.skillFace b { display: block; color: var(--lime); font-size: 42px; margin-bottom: 28px; }
+.skillFace small { color: #b6c0ad; }
+.tiltBack { display: flex; flex-direction: column; justify-content: center; overflow: auto; }
+.tiltBack strong { font-size: clamp(18px,2vw,30px); }
+.tiltBack p { margin: 10px 0 0; }
+.flipHint { position: absolute; right: 17px; bottom: 16px; padding: 4px 8px; color: white; background: #101210d9; border-radius: 3px; font-size: 12px; }
