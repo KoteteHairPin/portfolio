@@ -23,7 +23,7 @@ function PortfolioBackground() {
 }
 const tiltProps = {
   containerWidth: '100%', containerHeight: '100%', imageWidth: '100%', imageHeight: '100%',
-  rotateAmplitude: 12, scaleOnHover: 1.05, glare: 0.5, shadow: 0.5, radius: 2,
+  rotateAmplitude: 12, scaleOnHover: 1.05, glare: 0.5, glareColor: '#80ff44', shadow: 0.5, radius: 2,
   gyroscope: false, intro: false, showTooltip: false
 }
 
