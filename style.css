@@ -108,3 +108,12 @@ section[id]:not(#home) {
   .hero h1 { font-size: clamp(48px, 13vh, 76px); margin: 10px 0; }
   .hero p { margin: 8px 0; }
 }
+
+.titleMask,.titleInk { display:block; font:inherit; letter-spacing:inherit; }
+.titleMask { overflow:clip; padding:.09em .08em .09em 0; margin:-.09em -.08em -.09em 0; }
+.titleInk { transform-origin:left bottom; }
+.editorialTitle { font-size:clamp(42px,7.4vw,136px); line-height:.92; font-weight:900; letter-spacing:-.075em; }
+.openingShutter { position:absolute; inset:0; display:flex; pointer-events:none; z-index:-1; }
+.openingBlade { flex:1; background:#101110; transform:scaleY(0); transform-origin:top; }
+.openingBlade:nth-child(2) { background:#161815; }
+.portraitMask img { display:block; }

@@ -4,6 +4,7 @@ import seed from './projects.json'
 import Manager from './Manager'
 import MoltenMetal from './MoltenMetal'
 import TiltedCard, { TiltedCardLayer } from './TiltedCard'
+import {usePortfolioMotion} from './motion'
 import './style.css'
 
 const email='18222557741@163.com'
@@ -43,10 +44,15 @@ function ProjectCard({ project, index, openGallery }) {
   </div>
 }
 
+function MotionLine({children}) {
+  return <b className="titleMask"><b className="titleInk">{children}</b></b>
+}
+
 function App({projects,owner=false}){
  const [active,setActive]=useState('home'),[project,setProject]=useState(null),[slide,setSlide]=useState(0),[paused,setPaused]=useState(true)
  const [floating,setFloating]=useState(false)
  const hero=useRef(null)
+ usePortfolioMotion(hero)
  const dialog=useRef(null),video=useRef(null)
  useEffect(()=>{
    const player = video.current
@@ -67,17 +73,17 @@ function App({projects,owner=false}){
  function turn(offset){setSlide(n=>(n+offset+project.images.length)%project.images.length)}
  const links=[['home','首页'],['about','关于我'],['work','全部作品'],['skills','个人优势']]
  return <><PortfolioBackground/><header className={floating ? "floatingNav" : undefined}><div className="nav"><a className="brand" href="#home"><Mark/><b>YANG<span>®</span></b></a><nav>{links.map(([id,t])=><a key={id} className={active===id?'active':''} href={'#'+id}>{t}</a>)}</nav><a className="contactBtn" href="#contact">联系我 <i>↗</i></a></div></header>
- <section ref={hero} id="home" className="hero"><div className="stage"><video ref={video} muted playsInline loop autoPlay preload="auto" poster="/cover-b416c125.jpg" src="/cover-b416c125.mp4" onPlay={()=>setPaused(false)} onPause={()=>setPaused(true)}/><div className="veil"/><div className="rules" aria-hidden="true"/><div className="topline"><span>◉　VISUAL PORTFOLIO</span><span>YANG MINGYANG　/　2026</span></div><div className="heroCopy"><div className="eyebrow"><b className="dot"/> 杨明阳　 /　跨领域视觉设计师</div><h1>VISUAL<br/>DESIGN<span className="star">✳</span></h1><p>平面设计　 /　 UI 设计　 /　 AIGC 设计</p><a className="action" href="#work">浏览全部作品 <b>↗</b></a></div><div className="heroFoot"><a href="#about"><span>↓</span> SCROLL TO EXPLORE</a><div className="playPanel">MOTION COVER　 /　01 <button aria-label={paused?'播放动态背景':'暂停动态背景'} onClick={()=>video.current.paused?video.current.play():video.current.pause()}>{paused?'▷':'Ⅱ'}</button></div></div></div></section>
- <main><section id="about"><div className="label">01 / PROFILE</div><h3>关于我<span>About me</span></h3><div className="bio"><img src="/portrait-color.jpg" alt="杨明阳个人肖像"/><div><h4>杨明阳</h4><p>我就读于山东理工大学数字媒体技术专业，关注品牌视觉、数字界面与 AIGC 创作。我的项目从航空品牌的视觉系统延伸到游戏界面和电商产品图。</p><p>2023.09 — 2027.06　山东理工大学 · 本科<br/>BTV 卡酷少儿栏目组 · 摄制助理实习<br/>校级组织互联创新部 · 副部长</p><a href={'mailto:'+email}>{email} ↗</a></div><div className="stats"><strong>{String(projects.length).padStart(2,'0')}</strong>项目图集<strong>03</strong>设计方向</div></div></section>
- <section id="work"><div className="label">02 / 全部作品</div><h3 className="workTitle">ALL<br/>WORKS<sup>({String(projects.length).padStart(2,'0')})</sup></h3><div className="grid">{projects.map((p,n)=><ProjectCard key={n} project={p} index={n}
+ <section ref={hero} id="home" className="hero"><div className="stage"><video ref={video} muted playsInline loop autoPlay preload="auto" poster="/cover-b416c125.jpg" src="/cover-b416c125.mp4" onPlay={()=>setPaused(false)} onPause={()=>setPaused(true)}/><div className="veil"/><div className="openingShutter" aria-hidden="true"><i className="openingBlade"/><i className="openingBlade"/><i className="openingBlade"/></div><div className="rules" aria-hidden="true"/><div className="topline"><span>◉　VISUAL PORTFOLIO</span><span>YANG MINGYANG　/　2026</span></div><div className="heroCopy"><div className="eyebrow"><b className="dot"/> 杨明阳　 /　跨领域视觉设计师</div><h1 aria-label="Visual Design"><MotionLine>VISUAL</MotionLine><MotionLine>DESIGN<span className="star">✳</span></MotionLine></h1><p>平面设计　 /　 UI 设计　 /　 AIGC 设计</p><a className="action" href="#work">浏览全部作品 <b>↗</b></a></div><div className="heroFoot"><a href="#about"><span>↓</span> SCROLL TO EXPLORE</a><div className="playPanel">MOTION COVER　 /　01 <button aria-label={paused?'播放动态背景':'暂停动态背景'} onClick={()=>video.current.paused?video.current.play():video.current.pause()}>{paused?'▷':'Ⅱ'}</button></div></div></div></section>
+ <main><section id="about"><div className="label">01 / 关于我</div><h3 className="sectionHeading editorialTitle"><MotionLine>ABOUT ME</MotionLine></h3><div className="bio"><div className="portraitMask"><img src="/portrait-color.jpg" alt="杨明阳个人肖像"/></div><div><h4>杨明阳</h4><p>我就读于山东理工大学数字媒体技术专业，关注品牌视觉、数字界面与 AIGC 创作。我的项目从航空品牌的视觉系统延伸到游戏界面和电商产品图。</p><p>2023.09 — 2027.06　山东理工大学 · 本科<br/>BTV 卡酷少儿栏目组 · 摄制助理实习<br/>校级组织互联创新部 · 副部长</p><a href={'mailto:'+email}>{email} ↗</a></div><div className="stats"><strong>{String(projects.length).padStart(2,'0')}</strong>项目图集<strong>03</strong>设计方向</div></div></section>
+ <section id="work"><div className="label">02 / 全部作品</div><h3 className="workTitle sectionHeading"><MotionLine>ALL</MotionLine><MotionLine>WORKS<sup>({String(projects.length).padStart(2,'0')})</sup></MotionLine></h3><div className="grid">{projects.map((p,n)=><ProjectCard key={n} project={p} index={n}
    openGallery={()=>{setSlide(0);setProject(p)}}/>)}</div></section>
- <section id="skills"><div className="label">03 / CAPABILITIES</div><h3>个人优势<span>Capabilities</span></h3><div className="skills">{skills.map(([en,cn,desc],i)=><div className="skillTilt" key={en}>
+ <section id="skills"><div className="label">03 / 个人优势</div><h3 className="sectionHeading editorialTitle"><MotionLine>CAPABILITIES</MotionLine></h3><div className="skills">{skills.map(([en,cn,desc],i)=><div className="skillTilt" key={en}>
    <TiltedCard {...tiltProps} captionText={cn + '，翻面查看能力说明'}
      backContent={<div className="tiltBack"><strong>{cn}</strong><p>{desc}</p></div>}>
      <TiltedCardLayer depth={30}><div className="skillFace"><b>{['✳','⊞','✧'][i]}</b>
        <small>{en}</small><h4>{cn}</h4><span className="flipHint">翻面 ↻</span></div></TiltedCardLayer>
    </TiltedCard></div>)}</div></section></main>
- <section id="contact"><div className="contactInner"><div className="label">04 / CONTACT</div><h3>Let’s talk<strong>.</strong></h3><h4>聊聊下一个设计项目</h4><a className="mail" href={'mailto:'+email}>{email} ↗</a><a href="tel:18222557741">182 2255 7741</a></div><footer>{owner&&<a href="/?manage">管理作品</a>}© 2026 YANG MINGYANG <a href="#home">回到顶部 ↑</a></footer></section>
+ <section id="contact"><div className="contactInner"><div className="label">04 / CONTACT</div><h3 className="sectionHeading"><MotionLine>Let’s talk<strong>.</strong></MotionLine></h3><h4>聊聊下一个设计项目</h4><a className="mail" href={'mailto:'+email}>{email} ↗</a><a href="tel:18222557741">182 2255 7741</a></div><footer>{owner&&<a href="/?manage">管理作品</a>}© 2026 YANG MINGYANG <a href="#home">回到顶部 ↑</a></footer></section>
  <dialog ref={dialog} onClose={()=>setProject(null)} onKeyDown={e=>{if(e.target.tagName==='SELECT')return;if(e.key==='ArrowRight')turn(1);if(e.key==='ArrowLeft')turn(-1)}}>{project&&<><div className="dialogHead"><h4>{project.title}</h4><button onClick={()=>dialog.current.close()} aria-label="关闭">×</button></div><a className="fullPage" href={project.images[slide]} target="_blank" rel="noreferrer" aria-label="在新标签页放大查看整张作品"><img src={project.images[slide]} alt={project.labels[slide]}/></a><div className="pagePicker"><label>跳转页面 <select value={slide} onChange={e=>setSlide(Number(e.target.value))}>{project.labels.map((label,i)=><option key={i} value={i}>{i+1} · {label}</option>)}</select></label><a href={project.images[slide]} target="_blank" rel="noreferrer">放大查看 ↗</a></div><div className="controls"><button onClick={()=>turn(-1)}>← 上一张</button>{slide+1} / {project.images.length}<button onClick={()=>turn(1)}>下一张 →</button></div></>}</dialog></>}
 function Published() {
   const [projects,setProjects]=useState(null),[owner,setOwner]=useState(false),[error,setError]=useState(false)
