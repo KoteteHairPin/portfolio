@@ -1,0 +1,66 @@
+[
+  {
+    "title": "不设限",
+    "category": "主视觉设计",
+    "description": "以封面与海报呈现「不设限」主题的系列视觉。",
+    "images": [
+      "/work/project-1-1.jpg",
+      "/work/project-1-2.jpg"
+    ]
+  },
+  {
+    "title": "凤翎航空",
+    "category": "App UI / 品牌识别",
+    "description": "从航空 App 的界面，到机上用品和旅行物料，将品牌识别延伸到出行体验。",
+    "images": [
+      "/work/project-2-1.jpg",
+      "/work/project-2-2.jpg",
+      "/work/project-2-3.jpg",
+      "/work/project-2-4.jpg"
+    ]
+  },
+  {
+    "title": "霓虹脉冲",
+    "category": "游戏 UI",
+    "description": "围绕游戏大厅、战斗与角色界面，构建统一的霓虹街头视觉。",
+    "images": [
+      "/work/project-3-1.jpg",
+      "/work/project-3-2.jpg",
+      "/work/project-3-3.jpg",
+      "/work/project-3-4.jpg"
+    ]
+  },
+  {
+    "title": "跟着 Sissi 去旅行",
+    "category": "角色 IP / 视觉延展",
+    "description": "以 Sissi 的城市旅行为线索，从角色设定延展到四城贴纸与旅行礼盒。",
+    "images": [
+      "/work/project-4-1.jpg",
+      "/work/project-4-2.jpg",
+      "/work/project-4-3.jpg",
+      "/work/project-4-4.jpg"
+    ]
+  },
+  {
+    "title": "甜屿",
+    "category": "小程序 UI",
+    "description": "围绕蛋糕选购、定制与取餐三个场景，设计甜品小程序的界面与点单流程。",
+    "images": [
+      "/work/project-5-1.jpg",
+      "/work/project-5-2.jpg",
+      "/work/project-5-3.jpg",
+      "/work/project-5-4.jpg"
+    ]
+  },
+  {
+    "title": "中文字体实验",
+    "category": "字体设计",
+    "description": "从「红藕香残玉簟秋」到「金台夕照」，探索不同文字的笔画造型与画面构成。",
+    "images": [
+      "/work/project-6-1.jpg",
+      "/work/project-6-2.jpg",
+      "/work/project-6-3.jpg",
+      "/work/project-6-4.jpg"
+    ]
+  }
+]
