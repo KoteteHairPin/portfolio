@@ -41,6 +41,15 @@ export default {async fetch(req,env) {
   }
   const entry = await bucket.get(stateKey)
   const state = entry ? await entry.json() : {draft:null,published:null}
+  // Apply the requested initial order to existing catalogs once per stored state.
+  if (!state.albumOrderVersion) {
+    for (const albums of [state.draft, state.published]) {
+      if (!Array.isArray(albums)) continue
+      const index = albums.findIndex(p => p.title.replace(/\s+/g, '').toLowerCase() === '跟着sissi去旅行')
+      if (index > 0) albums.unshift(albums.splice(index, 1)[0])
+    }
+    state.albumOrderVersion = 1
+  }
   if (path === '/api/catalog' && !write) return json({projects:state.published})
   if (mediaPath.test(path) && !write) {
     if (!owner && !state.published?.some(p=>p.cover===path || p.images.includes(path))) return new Response(null,{status:404})

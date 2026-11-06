@@ -16,6 +16,14 @@ export default function Manager({Portfolio}) {
   useEffect(()=>{function warn(e){if(dirty){e.preventDefault();e.returnValue=''}}window.addEventListener('beforeunload',warn);return()=>window.removeEventListener('beforeunload',warn)},[dirty])
   function change(next){setItems(next);setDirty(true);say('有未保存的修改')}
   function go(i){setIndex(i);select([]);setTarget('')}
+  function moveAlbum(to) {
+    if (to < 0 || to >= items.length || index === to) return
+    const next = [...items]
+    next.splice(to, 0, next.splice(index, 1)[0])
+    change(next)
+    go(to)
+    say('图集已移至第 '+(to+1)+' 位。发布后生效。')
+  }
   const album=items?.[index]
   function edit(p){change(items.map((old,i)=>i===index?p:old))}
   function without(p,indices){
@@ -57,8 +65,13 @@ export default function Manager({Portfolio}) {
   {items&&<fieldset disabled={busy}><div className="adminBar">
     <button onClick={()=>save(false)}>保存草稿</button><button onClick={()=>setPreview(true)}>预览草稿</button><button className="publish" onClick={()=>save(true)}>发布到作品集</button>
   </div><div className="adminLayout"><aside><button onClick={()=>{change([...items,blank()]);go(items.length)}}>＋ 新建图集</button>
-  {items.map((p,i)=><button className={i===index?'picked':''} key={i} onClick={()=>go(i)}>{p.title}（{p.images.length}）</button>)}</aside>
-  {album&&<div className="editAlbum"><label>图集名称<input value={album.title} maxLength={180} onChange={e=>edit({...album,title:e.target.value})}/></label>
+  {items.map((p,i)=><button className={i===index?'picked':''} key={i} onClick={()=>go(i)}>{i+1}. {p.title}（{p.images.length}）</button>)}</aside>
+  {album&&<div className="editAlbum"><div className="adminBar" role="group" aria-label="作品排序">
+    <strong>作品排序　{index+1} / {items.length}</strong>
+    <button disabled={index===0} onClick={()=>moveAlbum(0)}>置顶</button>
+    <button disabled={index===0} onClick={()=>moveAlbum(index-1)}>上移</button>
+    <button disabled={index===items.length-1} onClick={()=>moveAlbum(index+1)}>下移</button>
+  </div><label>图集名称<input value={album.title} maxLength={180} onChange={e=>edit({...album,title:e.target.value})}/></label>
   <label>作品分类<input value={album.category} onChange={e=>edit({...album,category:e.target.value})}/></label>
   <label>作品介绍<textarea value={album.description} onChange={e=>edit({...album,description:e.target.value})}/></label>
   <div className="adminBar"><label>添加图片<input type="file" multiple accept="image/jpeg,image/png,image/webp" onChange={e=>{upload([...e.target.files]);e.target.value=''}}/></label>
