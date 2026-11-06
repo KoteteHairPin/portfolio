@@ -131,7 +131,7 @@ function Published() {
   const [projects,setProjects]=useState(null),[owner,setOwner]=useState(false),[error,setError]=useState(false)
   useEffect(()=>{
     if (__PAGES_SHOWCASE__) {
-      loadSeed().then(setProjects).catch(()=>setError(true))
+      import('./pages-catalog.json').then(module=>setProjects(module.default)).catch(()=>setError(true))
       return
     }
     fetch('/api/catalog').then(r=>{if(!r.ok)throw Error();return r.json()}).then(d=>d.projects??loadSeed()).then(setProjects).catch(()=>setError(true))
