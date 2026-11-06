@@ -143,10 +143,14 @@ function App({projects,owner=false}){
    </TiltedCard></div>)}</div></section></main>
  <section id="contact"><div className="contactInner"><div className="label">04 / CONTACT</div><h3 className="sectionHeading"><MotionLine>Let’s talk<strong>.</strong></MotionLine></h3><h4>聊聊下一个设计项目</h4><a className="mail" href={'mailto:'+email}>{email} ↗</a><a href="tel:18222557741">182 2255 7741</a></div><footer>{owner&&<a href="/?manage">管理作品</a>}© 2026 YANG MINGYANG <a href="#home">回到顶部 ↑</a></footer></section>
  <dialog ref={dialog} onClose={()=>setProject(null)} onKeyDown={e=>{if(e.target.tagName==='SELECT')return;if(e.key==='ArrowRight')turn(1);if(e.key==='ArrowLeft')turn(-1)}}>{project&&<><div className="dialogHead"><h4>{project.title}</h4><button onClick={()=>dialog.current.close()} aria-label="关闭">×</button></div><GalleryPages project={project} slide={slide} onZoom={()=>setZoomed(true)}/><div className="pagePicker"><label>跳转页面 <select value={slide} onChange={e=>setSlide(Number(e.target.value))}>{project.labels.map((label,i)=><option key={i} value={i}>{i+1} · {label}</option>)}</select></label><button className="zoomButton" onClick={()=>setZoomed(true)}>放大查看 ⤢</button></div><div className="controls"><button onClick={()=>turn(-1)}>← 上一张</button>{slide+1} / {project.images.length}<button onClick={()=>turn(1)}>下一张 →</button></div></>}</dialog>
- <dialog ref={zoomDialog} className="zoomDialog" aria-label="作品大图" onClose={()=>setZoomed(false)}>
+ <dialog ref={zoomDialog} className="zoomDialog" aria-label="作品大图" onKeyDown={e=>{
+   if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();turn(e.key==='ArrowLeft'?-1:1)}
+ }} onClose={()=>setZoomed(false)}>
  {zoomed&&project&&<><div className="zoomBar"><button autoFocus onClick={()=>zoomDialog.current.close()}>← 返回图集</button>
- <span>{slide+1} / {project.images.length}</span><button onClick={()=>{zoomDialog.current.close();dialog.current.close()}}>返回作品集</button></div>
- <div className="zoomCanvas"><img src={project.images[slide]} alt={project.labels[slide]}/></div></>}
+ <div className="zoomPaging"><button disabled={project.images.length<2} onClick={()=>turn(-1)}>← 上一张</button>
+ <span aria-live="polite">{slide+1} / {project.images.length}</span>
+ <button disabled={project.images.length<2} onClick={()=>turn(1)}>下一张 →</button></div><button onClick={()=>{zoomDialog.current.close();dialog.current.close()}}>返回作品集</button></div>
+ <div className="zoomCanvas" key={slide}><img src={project.images[slide]} alt={project.labels[slide]}/></div></>}
  </dialog></>}
 function Published() {
   const [projects,setProjects]=useState(null),[owner,setOwner]=useState(false),[error,setError]=useState(false)
