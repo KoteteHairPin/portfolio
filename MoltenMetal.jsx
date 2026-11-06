@@ -501,11 +501,10 @@ export default function MoltenMetal({
     };
 
     const tick = now => {
+      state.raf = 0;
+      if (!state.visible || document.hidden) return;
       state.raf = requestAnimationFrame(tick);
-      if (!state.visible || document.hidden) {
-        state.last = now;
-        return;
-      }
+      if (state.last && now - state.last < 1000 / 30 - 1) return;
       const s = settingsRef.current;
       const dt = state.last ? Math.min((now - state.last) / 1000, 0.1) : 0;
       state.last = now;
@@ -532,7 +531,6 @@ export default function MoltenMetal({
       state.seen = s;
       if (state.quiet > 3) return;
 
-      resize();
       render(reduced);
     };
 
@@ -573,8 +571,17 @@ export default function MoltenMetal({
       if (state.flares.length > MAX_FLARES) state.flares.shift();
     };
 
+    const syncRendering = () => {
+      if (document.hidden || !state.visible) {
+        cancelAnimationFrame(state.raf);
+        state.raf = 0;
+        state.last = 0;
+      } else if (!state.raf) state.raf = requestAnimationFrame(tick);
+    };
+    document.addEventListener('visibilitychange', syncRendering);
     const visibility = new IntersectionObserver(entries => {
       state.visible = entries.some(entry => entry.isIntersecting);
+      syncRendering();
     });
     visibility.observe(container);
     const sizes = new ResizeObserver(resize);
@@ -587,6 +594,7 @@ export default function MoltenMetal({
 
     return () => {
       cancelAnimationFrame(state.raf);
+      document.removeEventListener('visibilitychange', syncRendering);
       visibility.disconnect();
       sizes.disconnect();
       window.removeEventListener('pointermove', onMove);

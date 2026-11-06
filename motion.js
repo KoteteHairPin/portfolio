@@ -86,7 +86,13 @@ export function usePortfolioMotion(heroRef) {
         }
       },{rootMargin:'0px 0px -17% 0px'})
       page.querySelectorAll('.sectionHeading,.bio > *,.project,.skillTilt,.contactInner > h4,.contactInner > a').forEach(node=>observer.observe(node))
-      stop = () => { observer.disconnect(); reset.disconnect(); headings.forEach(h=>delete h.dataset.entry); animations.forEach(animation=>animation.cancel()); animations.clear() }
+      const additions = new MutationObserver(records=>{
+        for(const record of records) for(const node of record.addedNodes)
+          if(node.nodeType===1 && node.matches('.project')) observer.observe(node)
+      })
+      const grid=page.querySelector('.grid')
+      if(grid)additions.observe(grid,{childList:true})
+      stop = () => { additions.disconnect(); observer.disconnect(); reset.disconnect(); headings.forEach(h=>delete h.dataset.entry); animations.forEach(animation=>animation.cancel()); animations.clear() }
     }
     setup()
     return () => stop()

@@ -421,9 +421,9 @@ const TiltedCard = ({
     figure.addEventListener('blur', onBlur);
     window.addEventListener('pointerup', onUp, { passive: true });
     window.addEventListener('pointercancel', onCancel, { passive: true });
-    window.addEventListener('pointermove', onWindowMove, { passive: true });
+    if (trackWindow) window.addEventListener('pointermove', onWindowMove, { passive: true });
     document.documentElement.addEventListener('pointerleave', onWindowLeave);
-    window.addEventListener('deviceorientation', onOrientation);
+    if (gyroscope) window.addEventListener('deviceorientation', onOrientation);
 
     const observer = new IntersectionObserver(entries => {
       visible = entries.some(entry => entry.isIntersecting);
@@ -447,11 +447,11 @@ const TiltedCard = ({
       figure.removeEventListener('blur', onBlur);
       window.removeEventListener('pointerup', onUp);
       window.removeEventListener('pointercancel', onCancel);
-      window.removeEventListener('pointermove', onWindowMove);
+      if (trackWindow) window.removeEventListener('pointermove', onWindowMove);
       document.documentElement.removeEventListener('pointerleave', onWindowLeave);
-      window.removeEventListener('deviceorientation', onOrientation);
+      if (gyroscope) window.removeEventListener('deviceorientation', onOrientation);
     };
-  }, []);
+  }, [trackWindow, gyroscope]);
 
   const flippable = Boolean(backContent) && flipOnClick;
   const interactive = flippable || Boolean(onClick);

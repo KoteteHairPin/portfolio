@@ -123,3 +123,5 @@ section[id]:not(#home) {
 .motionSwitch { background:transparent; border:0; color:#d2d5cb; font-size:12px; padding:6px 2px; }
 .motionSwitch:hover,.motionSwitch:focus-visible { color:var(--lime); }
 @media(max-width:480px){.nav nav{gap:7px}.motionSwitch{font-size:10px}.navActions{gap:3px}}
+
+.portraitMask img { height:auto; }
