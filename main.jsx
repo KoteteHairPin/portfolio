@@ -130,6 +130,10 @@ function App({projects,owner=false}){
 function Published() {
   const [projects,setProjects]=useState(null),[owner,setOwner]=useState(false),[error,setError]=useState(false)
   useEffect(()=>{
+    if (__PAGES_SHOWCASE__) {
+      loadSeed().then(setProjects).catch(()=>setError(true))
+      return
+    }
     fetch('/api/catalog').then(r=>{if(!r.ok)throw Error();return r.json()}).then(d=>d.projects??loadSeed()).then(setProjects).catch(()=>setError(true))
     fetch('/api/access').then(r=>r.json()).then(d=>setOwner(d.owner)).catch(()=>{})
   },[])
@@ -137,4 +141,4 @@ function Published() {
   if(error)return <p>作品暂时无法载入。<button onClick={()=>location.reload()}>重试</button></p>
   return <App projects={projects??[]} owner={owner}/>
 }
-createRoot(document.getElementById('root')).render(new URLSearchParams(location.search).has('manage') ? <React.Suspense fallback={null}><Manager Portfolio={App}/></React.Suspense> : <Published/>)
+createRoot(document.getElementById('root')).render(!__PAGES_SHOWCASE__ && new URLSearchParams(location.search).has('manage') ? <React.Suspense fallback={null}><Manager Portfolio={App}/></React.Suspense> : <Published/>)
