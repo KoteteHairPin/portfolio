@@ -6,14 +6,7 @@ export function usePortfolioMotion(heroRef) {
   const [override, setOverride] = useState(() => {
     try { return localStorage.getItem('portfolio-entry-motion') } catch { return null }
   })
-  const [reduced, setReduced] = useState(() => matchMedia('(prefers-reduced-motion: reduce)').matches)
-  const enabled = override ? override === 'on' : !reduced
-  useLayoutEffect(() => {
-    const query = matchMedia('(prefers-reduced-motion: reduce)')
-    const change = () => setReduced(query.matches)
-    query.addEventListener('change', change)
-    return () => query.removeEventListener('change', change)
-  }, [])
+  const enabled = override !== 'off'
   useLayoutEffect(() => {
     const home = heroRef.current
     const page = home.parentElement
