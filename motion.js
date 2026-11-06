@@ -1,17 +1,28 @@
-import { useLayoutEffect } from 'react'
+import { useLayoutEffect, useState } from 'react'
 
 const glide = 'cubic-bezier(.16,.78,.18,1)'
 
 export function usePortfolioMotion(heroRef) {
+  const [override, setOverride] = useState(() => {
+    try { return localStorage.getItem('portfolio-entry-motion') } catch { return null }
+  })
+  const [reduced, setReduced] = useState(() => matchMedia('(prefers-reduced-motion: reduce)').matches)
+  const enabled = override ? override === 'on' : !reduced
+  useLayoutEffect(() => {
+    const query = matchMedia('(prefers-reduced-motion: reduce)')
+    const change = () => setReduced(query.matches)
+    query.addEventListener('change', change)
+    return () => query.removeEventListener('change', change)
+  }, [])
   useLayoutEffect(() => {
     const home = heroRef.current
     const page = home.parentElement
-    const preference = matchMedia('(prefers-reduced-motion: reduce)')
+    const headings = [...page.querySelectorAll('.sectionHeading')]
     let stop = () => {}
 
     function setup() {
       stop()
-      if (preference.matches || !Element.prototype.animate) return
+      if (!enabled || !Element.prototype.animate) return
       const animations = new Set()
       function play(node, frames, duration, delay=0) {
         if (!node) return
@@ -36,19 +47,32 @@ export function usePortfolioMotion(heroRef) {
       }
 
       const starts = new Map()
+      function prepareHeading(heading) {
+        heading.dataset.entry = 'ready'
+      }
+      headings.forEach(prepareHeading)
+      // Re-arm below the physical viewport, never while the reader is looking at the title.
+      const reset = new IntersectionObserver(entries => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting && entry.boundingClientRect.top >= innerHeight)
+            prepareHeading(entry.target)
+        }
+      })
+      headings.forEach(heading => reset.observe(heading))
       const observer = new IntersectionObserver(entries=>{
         const batches = new Map()
         for (const entry of entries) {
           if (!entry.isIntersecting) continue
           const node = entry.target
-          observer.unobserve(node)
+          if (!node.matches('.sectionHeading')) observer.unobserve(node)
           const section = node.closest('section')
           if (!batches.has(section)) batches.set(section,[])
           batches.get(section).push(node)
         }
         for (const [section,nodes] of batches) {
           const title = nodes.find(n=>n.matches('.sectionHeading'))
-          if (title) {
+          if (title && title.dataset.entry === 'ready') {
+            title.dataset.entry = 'shown'
             starts.set(section,performance.now())
             title.querySelectorAll('.titleInk').forEach((line,i)=>play(line,lineFrames,1350,i*130))
           }
@@ -60,12 +84,18 @@ export function usePortfolioMotion(heroRef) {
             if (image) play(image,[{clipPath:'inset(0 0 92% 0)'},{clipPath:'inset(0)'}],1260,delay)
           })
         }
-      },{rootMargin:'0px 0px -4% 0px'})
+      },{rootMargin:'0px 0px -17% 0px'})
       page.querySelectorAll('.sectionHeading,.bio > *,.project,.skillTilt,.contactInner > h4,.contactInner > a').forEach(node=>observer.observe(node))
-      stop = () => { observer.disconnect(); animations.forEach(animation=>animation.cancel()); animations.clear() }
+      stop = () => { observer.disconnect(); reset.disconnect(); headings.forEach(h=>delete h.dataset.entry); animations.forEach(animation=>animation.cancel()); animations.clear() }
     }
     setup()
-    preference.addEventListener('change',setup)
-    return () => { stop(); preference.removeEventListener('change',setup) }
-  },[heroRef])
+    return () => stop()
+  },[heroRef,enabled])
+
+  function toggle() {
+    const value = enabled ? 'off' : 'on'
+    setOverride(value)
+    try { localStorage.setItem('portfolio-entry-motion',value) } catch {}
+  }
+  return {enabled,toggle}
 }

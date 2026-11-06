@@ -117,3 +117,9 @@ section[id]:not(#home) {
 .openingBlade { flex:1; background:#101110; transform:scaleY(0); transform-origin:top; }
 .openingBlade:nth-child(2) { background:#161815; }
 .portraitMask img { display:block; }
+
+.sectionHeading[data-entry="ready"] .titleInk { transform:translate3d(-.09em,112%,0) skewY(7deg) scale(.84,.74); }
+.navActions { display:flex; align-items:center; gap:clamp(5px,1vw,16px); }
+.motionSwitch { background:transparent; border:0; color:#d2d5cb; font-size:12px; padding:6px 2px; }
+.motionSwitch:hover,.motionSwitch:focus-visible { color:var(--lime); }
+@media(max-width:480px){.nav nav{gap:7px}.motionSwitch{font-size:10px}.navActions{gap:3px}}
