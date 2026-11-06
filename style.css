@@ -125,3 +125,6 @@ section[id]:not(#home) {
 @media(max-width:480px){.nav nav{gap:7px}.motionSwitch{font-size:10px}.navActions{gap:3px}}
 
 .portraitMask img { height:auto; }
+
+.fullPage { position: relative; }
+.fullPage .bufferedPage { position: absolute; inset: 0; visibility: hidden; pointer-events: none; }
