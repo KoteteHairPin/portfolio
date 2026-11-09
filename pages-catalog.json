@@ -702,87 +702,25 @@
     ]
   },
   {
-    "title": "充电线 · 电商精修",
+    "title": "电商精修",
     "category": "电商设计",
     "description": "充电线 · 电商精修作品图集，共 2 张。",
-    "cover": "/archive/19-002.webp",
+    "cover": "/archive/upload-79d6aafbbc94ad4e5a29db28.jpg",
     "images": [
-      "/archive/19-001.webp",
-      "/archive/19-002.webp"
+      "/archive/upload-a9542312c62610c062b35e96.jpg",
+      "/archive/upload-a12ed3ff363e60104c5cf497.jpg",
+      "/archive/upload-c0448d3dd9887e840d806947.jpg",
+      "/archive/upload-6315edc18fff5052dfc06e46.jpg",
+      "/archive/upload-abe5e3bed6563810cfc822f5.jpg",
+      "/archive/upload-79d6aafbbc94ad4e5a29db28.jpg"
     ],
     "labels": [
-      "电商精修/充电线/原图",
-      "电商精修/充电线/精修"
-    ]
-  },
-  {
-    "title": "喷雾 · 电商精修",
-    "category": "电商设计",
-    "description": "喷雾 · 电商精修作品图集，共 2 张。",
-    "cover": "/archive/20-002.webp",
-    "images": [
-      "/archive/20-001.webp",
-      "/archive/20-002.webp"
-    ],
-    "labels": [
-      "电商精修/喷雾/原图",
-      "电商精修/喷雾/精修"
-    ]
-  },
-  {
-    "title": "沐浴露 · 电商精修",
-    "category": "电商设计",
-    "description": "沐浴露 · 电商精修作品图集，共 2 张。",
-    "cover": "/archive/21-002.webp",
-    "images": [
-      "/archive/21-001.webp",
-      "/archive/21-002.webp"
-    ],
-    "labels": [
-      "电商精修/沐浴露/原图",
-      "电商精修/沐浴露/精修"
-    ]
-  },
-  {
-    "title": "粉底液 · 电商精修",
-    "category": "电商设计",
-    "description": "粉底液 · 电商精修作品图集，共 2 张。",
-    "cover": "/archive/22-002.webp",
-    "images": [
-      "/archive/22-001.webp",
-      "/archive/22-002.webp"
-    ],
-    "labels": [
-      "电商精修/粉底液/原图",
-      "电商精修/粉底液/精修"
-    ]
-  },
-  {
-    "title": "豆浆机 · 电商精修",
-    "category": "电商设计",
-    "description": "豆浆机 · 电商精修作品图集，共 2 张。",
-    "cover": "/archive/23-002.webp",
-    "images": [
-      "/archive/23-001.webp",
-      "/archive/23-002.webp"
-    ],
-    "labels": [
-      "电商精修/豆浆机/原图",
-      "电商精修/豆浆机/精修"
-    ]
-  },
-  {
-    "title": "香水 · 电商精修",
-    "category": "电商设计",
-    "description": "香水 · 电商精修作品图集，共 2 张。",
-    "cover": "/archive/24-002.webp",
-    "images": [
-      "/archive/24-001.webp",
-      "/archive/24-002.webp"
-    ],
-    "labels": [
-      "电商精修/香水/原图",
-      "电商精修/香水/精修"
+      "充电线-.jpg",
+      "豆浆机-.jpg",
+      "粉底液-.jpg",
+      "沐浴露.jpg",
+      "喷雾.jpg",
+      "香水.jpg"
     ]
   }
 ]
